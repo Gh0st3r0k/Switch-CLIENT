@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@supports (-webkit-app-region: drag) {
+    body {
+        -webkit-app-region: drag;
+    }
+
+    button {
+        -webkit-app-region: no-drag;
+    }
+
+    .touch {
+        -webkit-app-region: no-drag;
+    }
+
+}
+
+body {
+    height: 100vh;
+    flex-direction: column;
+    background-color: #393939;
+    color: white;
+    text-align: center;
+}
+
+button {
+    background-color: #A0A0A0;
+    color: black;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.bold-italic {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.italic {
+    font-style: italic;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Header */
+
+header {
+    padding: 15px;
+    width: 100%;
+}
+
+#closeApp {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+#closeApp:hover {
+    background: rgb(220, 20, 20);
+    filter: brightness(1.2);
+}
+
+#nameApp {
+    font-size: 35px;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Content */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* ✅ Прижимаем весь блок вправо */
+    padding-left: 50px; /* ✅ Добавляем отступ от края */
+    padding-top: 20px; /* ✅ Добавляем отступ сверху */
+}
+
+article {
+    text-align: left; /* ✅ Выравниваем текст по правому краю */
+    margin-bottom: 15px; /* ✅ Отступ между секциями */
+}
+
+div {
+    padding-left: 15px;
+}
+
+span {
+    font-weight: normal;
+}
+
+.chooseNumber, 
+.resetMacTable, 
+.resetStatistics {
+    display: flex;
+    justify-content: flex-start; /* ✅ Элементы выравниваются справа */
+    align-items: center;
+    gap: 10px; /* ✅ Расстояние между текстом и элементами */
+    margin-bottom: 10px; /* ✅ Отступ между строками */
+}
+
+.chooseNumber span,
+.resetMacTable span,
+.resetStatistics span {
+    margin-right: 25px;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 100px; /* ✅ Кнопки и input одинакового размера */
+    padding: 6px;
+    font-size: 14px;
+    text-align: center;
+    border: 2px solid #393939;
+    border-radius: 5px;
+    outline: none;
+    margin-left: 22px;
+}
+
+.content button {
+    width: 100px; /* ✅ Кнопки и input одинакового размера */
+    padding: 6px;
+    font-size: 14px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    margin-left: 20px;
+    background-color: #A0A0A0;
+    color: black;
+    transition: background 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.content button:hover {
+    background: #636363;
+}
+
+#nameContent {
+    font-size: 20px;
+}

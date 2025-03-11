@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron UI</title>
+    <link rel="stylesheet" href="statisticPage.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+</head>
+<body>
+    <header>
+        <div id="statusPort"></div>
+        <h1 class="italic" id="nameApp">Port</h1>
+        <button id="closeApp">
+            <img src="../image/cross.svg" alt="Close" width="20" height="20">
+        </button>
+    </header>
+
+    <section class="content">
+        <table class="stat-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>In</th>
+                    <th>Out</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </section>
+
+    <script src="statisticPage.js"></script>
+
+</body>
+</html>

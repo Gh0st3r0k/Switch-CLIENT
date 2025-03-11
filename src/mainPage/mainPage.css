@@ -1,0 +1,305 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@supports (-webkit-app-region: drag) {
+    body {
+        -webkit-app-region: drag;
+    }
+
+    button {
+        -webkit-app-region: no-drag;
+    }
+
+    .ports {
+        -webkit-app-region: no-drag;
+    }
+
+    table {
+        -webkit-app-region: no-drag;
+    }
+
+    .table-container {
+        -webkit-app-region: no-drag;
+    }
+}
+
+body {
+    height: 100vh;
+    flex-direction: column;
+    background-color: #393939;
+    color: white;
+    text-align: center;
+}
+
+button {
+    background-color: #A0A0A0;
+    color: black;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.bold-italic {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.italic {
+    font-style: italic;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Header */
+
+header {
+    padding: 15px;
+    width: 100%;
+}
+
+#statusSwitch {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 25px;
+    height: 25px;
+    background-color: rgb(0, 255, 0);
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.9); 
+    filter: blur(0.7px);
+}
+
+#closeApp {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+#closeApp:hover {
+    background: rgb(220, 20, 20);
+    filter: brightness(1.2);
+}
+
+#nameApp {
+    font-size: 40px;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Content */
+
+.content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 150px;
+    padding: 45px 75px 100px 75px;
+    height: 450px;
+}
+
+#nameContent {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/************************************************/
+/* Ports */
+
+.ports {
+    width: 30%;
+    border-radius: 10px;
+}
+
+.ports-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.ports-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ports-container::-webkit-scrollbar-track {
+    background: #3A3A3A;
+    border-radius: 10px;
+}
+
+/* TODO: сделать плавную анимацию перехода цвета в скроллере */
+.ports-container::-webkit-scrollbar-thumb {
+    background: #A0A0A0;
+    border-radius: 10px;
+}
+
+.ports-container::-webkit-scrollbar-thumb:hover {
+    background: #636363;
+}
+
+.port-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #B0B0B0;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+.port-button:hover {
+    background: #636363;
+}
+
+.status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+/************************************************/
+/* Mact-table */
+
+.mac-table {
+    width: 65%;
+    border-radius: 10px;
+}
+
+.table-wrapper {
+    background: #B0B0B0;
+    border-radius: 10px;
+}
+
+.table-header,
+.table-container table {
+    table-layout: fixed;
+    width: 100%;
+    cursor: default;
+}
+
+.column1 {
+    width: 10%;
+}
+
+.column2 {
+    width: 45%;
+}
+
+.column3 {
+    width: 45%;
+}
+
+.table-header th:last-child, .table-body td:last-child {
+    border-right: none;
+}
+
+/***********************/
+/* Head-table */
+
+.table-header {
+    border-collapse: collapse;
+}
+
+.table-header th {
+    padding: 8px;
+    text-align: center;
+    font-style: italic;
+    border-bottom: 2px solid #393939;
+    border-right: 2px solid #393939;
+    color: black;
+}
+
+/***********************/
+/* Body-table */
+
+.table-container {
+    max-height: 212px; /* ⚡ Ограничиваем высоту */
+    overflow-y: auto; /* ✅ Разрешаем скролл */
+    display: block;
+}
+
+.table-body {
+    width: 100%;
+    border-collapse: collapse;
+    color: #393939;
+}
+
+.table-body td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #393939;
+    border-right: 1px solid #393939;
+}
+
+.table-body tr:last-child td {
+    border-bottom: none;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #3A3A3A;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #A0A0A0;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #636363;
+}
+
+
+
+
+
+/****************************************************************************************************************************************************/
+/* Footer */
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 75px;
+}
+
+.footer-button {
+    display: flex;
+    justify-content: center; /* ✅ Центрируем текст */
+    align-items: center;
+    background: #B0B0B0;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 25%; /* ✅ Каждая кнопка занимает 30% ширины */
+
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out; /* 🔥 Плавный эффект */
+}
+
+.footer-button:hover {
+    background: #636363;
+}

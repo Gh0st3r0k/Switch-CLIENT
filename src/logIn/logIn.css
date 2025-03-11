@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@supports (-webkit-app-region: drag) {
+    body {
+        -webkit-app-region: drag;
+    }
+
+    button {
+        -webkit-app-region: no-drag;
+    }
+
+    input {
+        -webkit-app-region: no-drag;
+    }
+
+}
+
+body {
+    height: 100vh;
+    flex-direction: column;
+    background-color: #393939;
+    color: white;
+    text-align: center;
+}
+
+button {
+    background-color: #A0A0A0;
+    color: black;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.bold-italic {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.italic {
+    font-style: italic;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Header */
+
+header {
+    padding: 15px;
+    width: 100%;
+}
+
+#closeApp {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+#closeApp:hover {
+    background: rgb(220, 20, 20);
+    filter: brightness(1.2);
+}
+
+#nameApp {
+    font-size: 32px;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Content */
+
+.content {
+    display: flex;
+    flex-direction: column; /* 🔹 Элементы идут вертикально */
+    justify-content: center; /* 🔹 Центрирование по вертикали */
+    align-items: center; /* 🔹 Центрирование по горизонтали */
+    width: 50%;
+    position: relative;
+    left: 20%;
+}
+
+
+.input-group {
+    display: flex; /* 🔹 Выстраиваем элементы в одну линию */
+    align-items: center; /* 🔹 Выравниваем элементы по центру */
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 150px;
+    height: 25px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background: #ccc;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.toggle-password {
+    /* position: absolute; */
+    right: 1px;
+    bottom: 4px;
+    /* top: 48%; */
+    /* transform: translateY(-50%); */
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    width: 25px;
+    height: 25px;
+    /* z-index: 10; */
+}
+
+
+/****************************************************************************************************************************************************/
+/* Footer */
+
+#login-button {
+    width: 100px;
+    height: 25px;
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+#login-button:hover {
+    background: rgb(47, 220, 20);
+    filter: brightness(1.2);
+}

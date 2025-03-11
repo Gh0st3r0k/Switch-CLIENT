@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron UI</title>
+    <link rel="stylesheet" href="settingPage.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+</head>
+<body>
+    <header>
+        <h1 class="bold-italic" id="nameApp">Settings</h1>
+        <button id="closeApp">
+            <img src="../image/cross.svg" alt="Close" width="20" height="20">
+        </button>
+    </header>
+
+    <section class="content">
+        <article class="Mac-table">
+            <h2 class="bold-italic" id="nameContent">Mac-table</h2>
+            <div class="chooseNumber"><span class="italic">Time</span><input title="Time" type="number" class="touch" id="numberTimeMacTable" min="1" max="100" step="1" value="5"></div>
+            <div class="resetMacTable"><span class="italic">Reset</span><button class="touch" id="resetButtonMacTable">Clear</button></div>
+        </article>
+        <article class="Statistics">
+            <h2 class="bold-italic" id="nameContent">Statistics</h2>
+            <div class="resetStatistics"><span class="italic">Reset</span><button class="touch" id="resetButtonStatistics">Clear</button></div>
+        </article>
+    </section>
+
+    <script src="settingPage.js"></script>
+</body>
+</html>

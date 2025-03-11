@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron UI</title>
+    <link rel="stylesheet" href="logIn.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+</head>
+<body>
+    <header>
+        <h1 class="italic" id="nameApp">Log In</h1>
+        <button id="closeApp">
+            <img src="../image/cross.svg" alt="Close" width="20" height="20">
+        </button>
+    </header>
+
+    <section class="content">
+        <article class="input-group">
+            <input type="text" id="username" placeholder="Username">
+        </article>
+
+        <article class="input-group">
+            <input type="password" id="password" placeholder="Password">
+            <button class="toggle-password">
+                🥺
+            </button>
+        </article>
+    </section>
+
+    <footer>
+        <button id="login-button"><b>Log In</b></button>
+    </footer>
+
+    <script src="logIn.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@supports (-webkit-app-region: drag) {
+    body {
+        -webkit-app-region: drag;
+    }
+
+    button {
+        -webkit-app-region: no-drag;
+    }
+
+    .ports {
+        -webkit-app-region: no-drag;
+    }
+
+    table {
+        -webkit-app-region: no-drag;
+    }
+
+    .table-container {
+        -webkit-app-region: no-drag;
+    }
+}
+
+body {
+    height: 100vh;
+    flex-direction: column;
+    background-color: #393939;
+    color: white;
+    text-align: center;
+}
+
+button {
+    background-color: #A0A0A0;
+    color: black;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.italic {
+    font-style: italic;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Header */
+
+header {
+    padding: 15px;
+    width: 100%;
+}
+
+#statusPort {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 25px;
+    height: 25px;
+    background-color: rgb(0, 255, 0);
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.9); 
+    filter: blur(0.7px);
+}
+
+#closeApp {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+#closeApp:hover {
+    background: rgb(220, 20, 20);
+    filter: brightness(1.2);
+}
+
+#nameApp {
+    font-size: 35px;
+}
+
+
+
+/****************************************************************************************************************************************************/
+/* Content */
+
+.stat-table {
+    width: 80%;
+    border-collapse: collapse; /* Убирает промежутки между ячейками */
+    border: none; /* Полностью убирает границы */
+    margin: 0% 10% 0% 10%;
+}
+
+.stat-table th,
+.stat-table td {
+    padding: 2.5px; /* Добавляем отступы для читаемости */
+    text-align: left;
+    border: none; /* Убираем границы у ячеек */
+}
+
+.number {
+    color: #A0A0A0;
+    width: 25%;
+}
+
+.protocol {
+    width: 50%;
+}
