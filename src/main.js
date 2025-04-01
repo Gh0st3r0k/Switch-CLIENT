@@ -311,6 +311,34 @@ ipcMain.handle("fetch-port-statistics", async (event, portNumber) => {
     }
 });
 
+ipcMain.handle("get-port-status", async (event, portNumber) => {
+    try {
+        const response = await fetch(`http://localhost:5215/api/ports/${portNumber}/status`);
+        if (!response.ok) throw new Error("Ошибка получения статуса порта");
+
+        const data = await response.json(); // 👈 Парсим JSON
+        return data.isEnabled; // 🔥 Возвращаем строку на основе значения
+    } catch (error) {
+        console.error("❌ Ошибка в get-port-status:", error);
+        return null;
+    }
+});
+
+
+ipcMain.handle("get-port-name", async (event, portNumber) => {
+    try {
+        const response = await fetch(`http://localhost:5215/api/ports/${portNumber}/name`);
+        if (!response.ok) throw new Error("Ошибка получения имени порта");
+
+        const data = await response.json(); // 🔥 Распарсить как JSON
+        return data.name || null;           // ✅ Вернуть только имя
+    } catch (error) {
+        console.error("❌ Ошибка в get-port-name:", error);
+        return null;
+    }
+});
+
+
 
 
 
@@ -357,9 +385,13 @@ ipcMain.handle("update-settings", async (event, newTTL) => {
     }
 });
 
+
+let resetMacTable = 0;
+
 // ✅ Сбросить MAC-таблицу
 ipcMain.handle("reset-mac-table", async () => {
     try {
+        resetMacTable = 1;
         const response = await fetch(`${API_SETTINGS_URL}/mac-table/reset`, { method: "POST" });
         if (!response.ok) throw new Error("Ошибка при сбросе MAC-таблицы");
 
@@ -368,6 +400,14 @@ ipcMain.handle("reset-mac-table", async () => {
         console.error("❌ Ошибка сброса MAC-таблицы:", error);
         return null;
     }
+});
+
+ipcMain.handle('check-reset-macTable', () => {
+    if (resetMacTable === 1) {
+        resetMacTable = 0;
+      return true;
+    }
+    return false;
 });
 
 // ✅ Сбросить статистику
@@ -395,4 +435,3 @@ ipcMain.handle("fetch-mac-table", async () => {
         return [];
     }
 });
-

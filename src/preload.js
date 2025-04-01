@@ -18,10 +18,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
     
     fetchPorts: () => ipcRenderer.invoke("fetch-ports"),
     fetchPortStatistics: (portNumber) => ipcRenderer.invoke("fetch-port-statistics", portNumber),
+    getPortStatus: (portNumber) => ipcRenderer.invoke("get-port-status", portNumber),
+    getPortName: (portNumber) => ipcRenderer.invoke("get-port-name", portNumber),
 
     fetchSettings: () => ipcRenderer.invoke("fetch-settings"),
     updateSettings: (newTTL) => ipcRenderer.invoke("update-settings", newTTL),
     resetMacTable: () => ipcRenderer.invoke("reset-mac-table"),
+    checkResetMacTable: () => ipcRenderer.invoke('check-reset-macTable'),
     resetStatistics: () => ipcRenderer.invoke("reset-statistics"),
 
     GetMacTable: () => ipcRenderer.invoke("fetch-mac-table")

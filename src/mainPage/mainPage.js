@@ -93,24 +93,53 @@ function addPort(port, status) {
     portButton.appendChild(portLabel);
     portButton.appendChild(statusIndicator);
 
-    // TODO: Добавить открытие нового окна (статистики порта)
     portButton.addEventListener("click", () => {
         console.log(`Открыть статистику порта #${portNumber}`);
         window.electronAPI.openPortStat(port);
     });
 
+    portButton.setAttribute("data-port", portNumber); // 👈 Добавляем data-порт
+
     portsContainer.appendChild(portButton);
+
+    monitorPortStatus(port);
 }
 
-function updatePorts(ports) {
+function monitorPortStatus(port) {
+    //console.log(`🔄 Мониторинг статуса порта #${port.number}`);
+    const statusIndicator = document.querySelector(`.port-button[data-port="${port.number}"] .status`);
+    if (!statusIndicator) return;
+
+    let currentStatus = statusIndicator.classList.contains("green") ? "green" : "red";
+
+    setInterval(async () => {
+        const status = await window.electronAPI.getPortStatus(port.number);
+        const newStatus = (status === 1) ? "green" : "red";
+
+        if (newStatus !== currentStatus) {
+
+            currentStatus = newStatus;
+
+            let color = getStatusColor(newStatus);
+            statusIndicator.className = "status " + newStatus;
+            statusIndicator.style.backgroundColor = color;
+            statusIndicator.style.boxShadow = `0px 0px 15px rgba(${hexToRgb(color)}, 0.9)`;
+
+            console.log(`🔄 Порт ${port.number} сменил статус на ${status}`);
+        }
+    }, 500); // 🔁 проверка каждую секунду
+}
+
+async function updatePorts(ports) {
     deleteAllPorts();
 
     for (let port of ports) {
-        // let status = "red";
-        // if (port.status === "up") {
-        //     status = "green";
-        // }
-        addPort(port, "green");
+        const statusNumber = await window.electronAPI.getPortStatus(port.number);
+        let status = "red";
+        if (statusNumber === 1) {
+            status = "green";
+        }
+        addPort(port, status);
     }
 }
 
@@ -137,6 +166,16 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateMacTableFromServer, 100); // 🔄 Обновление каждую секунду
 });
 
+var cleatMacTable = false;
+
+async function checkAndReset() {
+    const shouldReset = await window.api.checkResetMacTable();
+    if (shouldReset) {
+        cleatMacTable = true;
+    } else {
+      console.log("Сбрасывать не надо");
+    }
+}
 
 
 
@@ -180,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+let oldMacTable = new Map();
 let mainMacTable = new Map();
 let newMacTable = new Map();
 
@@ -193,6 +233,9 @@ async function updateMacTableFromServer() {
 
         if ((!serverMainTable || serverMainTable.length === 0) && (!serverNewTable || serverNewTable.length === 0)) {
             console.log("⚠️ MAC-таблица пуста.");
+            if (macCount > 0) {
+                deleteAllMacTable();
+            }
             return;
         }
 
@@ -206,6 +249,8 @@ async function updateMacTableFromServer() {
 
 function processMacTables(serverMainTable, serverNewTable) {
 
+    // Скопировать текущее состояние mainMacTable в oldMacTable
+    oldMacTable = new Map(mainMacTable);
     mainMacTable.clear();
     // 🔥 Обновляем `mainMacTable`
     serverMainTable.forEach(entry => {
@@ -228,17 +273,20 @@ function processMacTables(serverMainTable, serverNewTable) {
 
         newMacTable.set(mac, data); // ✅ Записываем данные в `newMacTable`
 
-        // ✅ Если MAC-адреса нет в `mainMacTable`, добавляем его
-        if (!mainMacTable.has(mac)) {
+        
+        if (!mainMacTable.has(mac) && !oldMacTable.has(mac)) {
             mainMacTable.set(mac, data);
+            addRowToMacTable(entry.portNumber, mac, formatExpirationTime(data.expiration)); // UI
         }
+        // Если нет в main и не было в old → добавляем
+        
 
         // 🔥 Добавляем данные в UI
-        addRowToMacTable(entry.portNumber, mac, formatExpirationTime(data.expiration));
+        //addRowToMacTable(entry.portNumber, mac, formatExpirationTime(data.expiration));
     });
 
-    console.log("📥 Обновленный `mainMacTable`:", mainMacTable);
-    console.log("📥 Обновленный `newMacTable`:", newMacTable);
+    //console.log("📥 Обновленный `mainMacTable`:", mainMacTable);
+    //console.log("📥 Обновленный `newMacTable`:", newMacTable);
 
     // ✅ Очистка `newMacTable` после обработки
     newMacTable.clear();
@@ -270,6 +318,7 @@ function findMacInMain(macAddress) {
 // }
 
 function addRowToMacTable(port, mac, time) {
+    
     
     const tableBody = document.querySelector(".table-container tbody");
 
@@ -312,13 +361,15 @@ function trackMacInTable(row, mac) {
             portCell.textContent = macData.portNumber;
         } 
         
-        if (!macData) {
+        if (!macData || cleatMacTable) {
             // ❌ MAC-адреса нет в `mainMacTable` или истёк `timeMacTable`
             clearInterval(checkInterval);
             row.remove();
             macCount--;
             adjustTableHeaderWidth();
             checkMacTableIsEmpty();
+
+            oldMacTable.delete(mac);
         }
     }, updateInterval);
 }
@@ -347,6 +398,7 @@ function deleteAllMacTable() {
 
 function checkMacTableIsEmpty() {
     if (macCount == 0) {
+        cleatMacTable = false;
         MacTableIsEmpty();
     }
 }
