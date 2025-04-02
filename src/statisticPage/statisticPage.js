@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function startPortStatusMonitor(portNumber) {
-    const interval = 500; // 🔁 Интервал проверки в миллисекундах
+    const interval = 2000; // 🔁 Интервал проверки в миллисекундах
 
     async function checkStatus() {
         const status = await window.electronAPI.getPortStatus(portNumber);

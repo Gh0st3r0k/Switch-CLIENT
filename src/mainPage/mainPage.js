@@ -127,7 +127,7 @@ function monitorPortStatus(port) {
 
             console.log(`🔄 Порт ${port.number} сменил статус на ${status}`);
         }
-    }, 500); // 🔁 проверка каждую секунду
+    }, 2000); // 🔁 проверка каждую секунду
 }
 
 async function updatePorts(ports) {
@@ -163,7 +163,7 @@ var timeMacTable = 5000;
 
 document.addEventListener("DOMContentLoaded", () => {
     updateMacTableFromServer()
-    setInterval(updateMacTableFromServer, 100); // 🔄 Обновление каждую секунду
+    setInterval(updateMacTableFromServer, 500); // 🔄 Обновление каждую секунду
 });
 
 var cleatMacTable = false;
@@ -172,6 +172,9 @@ async function checkAndReset() {
     const shouldReset = await window.api.checkResetMacTable();
     if (shouldReset) {
         cleatMacTable = true;
+        newMacTable.clear();
+        oldMacTable.clear();
+        mainMacTable.clear();
     } else {
       console.log("Сбрасывать не надо");
     }
@@ -179,43 +182,6 @@ async function checkAndReset() {
 
 
 
-//////////////////////////////////////////////////////////////////////////////
-
-
-// async function updateMacTableFromServer() {
-//     try {
-
-//         //updateMacTableTTL();
-
-//         const macTable = await window.electronAPI.GetMacTable(); // 🔥 Получаем MAC-таблицу
-
-//         if (!macTable || macTable.length === 0) {
-//             console.log("⚠️ MAC-таблица пуста.");
-//             return;
-//         }
-
-//         macTable.forEach(entry => {
-//             const port = entry.portNumber;
-//             const mac = entry.macAddress;
-//             const expirationDate = new Date(entry.expiration); // 🕒 Преобразуем `expiration` в объект Date
-        
-//             const formattedTime = expirationDate.toLocaleString("en-US", {
-//                 "year": "numeric",
-//                 "month": "short",
-//                 "day": "2-digit",
-//                 "hour": "2-digit",
-//                 "minute": "2-digit",
-//                 "second": "2-digit",
-//                 hour12: false
-//             }) + `.${expirationDate.getMilliseconds().toString().padStart(3, "0")}`; // 🔥 Добавляем миллисекунды
-        
-//             addRowToMacTable(port, mac, formattedTime); // 🔹 Передаем форматированную дату
-//         });
-
-//     } catch (error) {
-//         console.error("❌ Ошибка обновления MAC-таблицы:", error);
-//     }
-// }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -233,7 +199,7 @@ async function updateMacTableFromServer() {
 
         if ((!serverMainTable || serverMainTable.length === 0) && (!serverNewTable || serverNewTable.length === 0)) {
             console.log("⚠️ MAC-таблица пуста.");
-            if (macCount > 0) {
+            if (tableBody.children.length == 0) {
                 deleteAllMacTable();
             }
             return;
@@ -260,7 +226,13 @@ function processMacTables(serverMainTable, serverNewTable) {
             expiration: new Date(entry.expiration) // 🕒 Преобразуем `expiration` в объект Date
         };
 
+        if (!mainMacTable.has(mac) && !oldMacTable.has(mac)) {
+            mainMacTable.set(mac, data);
+            addRowToMacTable(entry.portNumber, mac, formatExpirationTime(data.expiration)); // UI
+        }
+
         mainMacTable.set(mac, data); // ✅ Перезаписываем данные в `mainMacTable`
+
     });
 
     // 🔥 Обрабатываем `newMacTable`
@@ -282,7 +254,6 @@ function processMacTables(serverMainTable, serverNewTable) {
         
 
         // 🔥 Добавляем данные в UI
-        //addRowToMacTable(entry.portNumber, mac, formatExpirationTime(data.expiration));
     });
 
     //console.log("📥 Обновленный `mainMacTable`:", mainMacTable);
@@ -307,15 +278,6 @@ function formatExpirationTime(expirationDate) {
 function findMacInMain(macAddress) {
     return mainMacTable.get(macAddress) || null; // 🔹 Вернёт `null`, если MAC-адреса нет
 }
-
-// async function updateMacTableTTL() {
-//     try {
-//         const settings = await window.electronAPI.fetchSettings();
-//         timeMacTable = settings.newTime;
-//     } catch (error) {
-//         console.error("❌ Ошибка обновления TTL:", error);
-//     }
-// }
 
 function addRowToMacTable(port, mac, time) {
     
@@ -348,7 +310,7 @@ function addRowToMacTable(port, mac, time) {
 }
 
 function trackMacInTable(row, mac) {
-    const updateInterval = 100; // 🔥 Проверяем каждые 100 мс
+    const updateInterval = 500; // 🔥 Проверяем каждые 100 мс
 
     const checkInterval = setInterval(() => {
         const macData = findMacInMain(mac);
@@ -369,6 +331,7 @@ function trackMacInTable(row, mac) {
             adjustTableHeaderWidth();
             checkMacTableIsEmpty();
 
+            mainMacTable.delete(mac);
             oldMacTable.delete(mac);
         }
     }, updateInterval);
@@ -392,7 +355,10 @@ function deleteAllMacTable() {
 
     tableBody.replaceChildren();
     macCount = 0;
-
+    mainMacTable.clear();
+    oldMacTable.clear();
+    newMacTable.clear();
+    
     checkMacTableIsEmpty();
 }
 
@@ -478,21 +444,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creat test data
 
-// setTimeout(() => {
-//     window.electronAPI.print();
-//     addRowToMacTable(2, "BB:BB:BB:BB:BB:BB", "2024-02-26 15:45:12.456");
-//     addRowToMacTable(3, "CC:CC:CC:CC:CC:CC", "2024-02-26 15:45:12.789");
-//     addRowToMacTable(2, "BB:BB:BB:BB:BB:BB", "2024-02-26 15:45:12.456");
-//     addRowToMacTable(3, "CC:CC:CC:CC:CC:CC", "2024-02-26 15:45:12.789");
-//     addRowToMacTable(2, "BB:BB:BB:BB:BB:BB", "2024-02-26 15:45:12.456");
-//     addRowToMacTable(3, "CC:CC:CC:CC:CC:CC", "2024-02-26 15:45:12.789");
-//     addRowToMacTable(2, "BB:BB:BB:BB:BB:BB", "2024-02-26 15:45:12.456");
-//     addRowToMacTable(3, "CC:CC:CC:CC:CC:CC", "2024-02-26 15:45:12.789");
-//     addRowToMacTable(2, "BB:BB:BB:BB:BB:BB", "2024-02-26 15:45:12.456");
-//     addRowToMacTable(3, "CC:CC:CC:CC:CC:CC", "2024-02-26 15:45:12.789");
-//     addRowToMacTable(2, "BB:BB:BB:BB:BB:BB", "2024-02-26 15:45:12.456");
-//     addRowToMacTable(3, "CC:CC:CC:CC:CC:CC", "2024-02-26 15:45:12.789");
-// }, 5000);
 
 
 

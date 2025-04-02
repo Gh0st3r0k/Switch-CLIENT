@@ -179,7 +179,7 @@ function createMainWindow() {
     });
 
     mainWindow.loadFile(path.join(__dirname, "mainPage/mainPage.html"));
-    mainWindow.webContents.openDevTools(); // Open DevTools (Debug)
+    //mainWindow.webContents.openDevTools(); // Open DevTools (Debug)
 }
 
 // ✅ Универсальная функция для создания окон
