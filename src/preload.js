@@ -27,7 +27,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     checkResetMacTable: () => ipcRenderer.invoke('check-reset-macTable'),
     resetStatistics: () => ipcRenderer.invoke("reset-statistics"),
 
-    GetMacTable: () => ipcRenderer.invoke("fetch-mac-table")
+    GetMacTable: () => ipcRenderer.invoke("fetch-mac-table"),
+
+    getHostName: () => ipcRenderer.invoke("get-host-name"),
+    setHostName: (hostName) => ipcRenderer.invoke("set-host-name", hostName)
 
     // fetchPorts
 });

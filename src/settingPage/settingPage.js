@@ -39,6 +39,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("deviceNameInput");
+    const button = document.getElementById("confirmDeviceNameButton");
+
+    button.addEventListener("click", async () => {
+        const name = input.value.trim();
+        if (!name) {
+            alert("⛔ Entry name");
+            return;
+        }
+
+        const result = await window.electronAPI.setHostName(name);
+        if (result) {
+            //alert(result); // Показывает "✅ Имя хоста обновлено."
+        } else {
+            alert("❌ Не удалось обновить имя устройства");
+        }
+    });
+
+    // 👉 опционально: автозаполнение текущего имени
+    window.electronAPI.getHostName().then((name) => {
+        if (name) input.value = name;
+    });
+});
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Statistic page loaded");

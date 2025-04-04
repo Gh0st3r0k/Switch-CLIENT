@@ -20,6 +20,31 @@ function MacTableIsEmpty() {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+    const nameHeader = document.getElementById("nameApp");
+
+    let currentName = nameHeader.textContent;
+
+    async function checkAndUpdateHostName() {
+        try {
+            const newName = await window.electronAPI.getHostName();
+            if (newName && newName !== currentName) {
+                currentName = newName;
+                nameHeader.textContent = newName;
+            }
+        } catch (error) {
+            console.error("❌ Не удалось получить имя хоста:", error);
+        }
+    }
+
+    // Проверка каждую секунду
+    setInterval(checkAndUpdateHostName, 1000);
+});
+
+
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Main func
@@ -159,7 +184,7 @@ function deleteAllPorts() {
 //////////////////////////////////////////////////
 // Mac-table
 
-var timeMacTable = 5000;
+var timeMacTable = 60000;
 
 document.addEventListener("DOMContentLoaded", () => {
     updateMacTableFromServer()

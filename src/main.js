@@ -435,3 +435,41 @@ ipcMain.handle("fetch-mac-table", async () => {
         return [];
     }
 });
+
+
+
+
+// ✅ Получить имя хоста
+ipcMain.handle("get-host-name", async () => {
+    try {
+        const response = await fetch(`${API_SETTINGS_URL}/host-name`, {
+            method: "GET"
+        });
+
+        if (!response.ok) throw new Error("Ошибка при получении имени хоста");
+
+        const data = await response.json();
+        return data.hostName;
+    } catch (error) {
+        console.error("❌ Ошибка получения имени хоста:", error);
+        return null;
+    }
+});
+
+// ✅ Установить имя хоста
+ipcMain.handle("set-host-name", async (event, hostName) => {
+    try {
+        const response = await fetch(`${API_SETTINGS_URL}/host-name`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ hostName })
+        });
+
+        if (!response.ok) throw new Error("Ошибка при установке имени хоста");
+
+        return await response.text(); // Например: "✅ Имя хоста обновлено."
+    } catch (error) {
+        console.error("❌ Ошибка установки имени хоста:", error);
+        return null;
+    }
+});
