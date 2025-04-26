@@ -1,76 +1,88 @@
-async function updateMacTableTTL() {
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Initialization
+
+document.addEventListener("DOMContentLoaded", () => {
+    initializeTTLSettings();
+    initializeResetButtons();
+    initializeDeviceNameInput();
+    initializeCloseButton();
+    initializeMacTableInput();
+});
+
+// Load and set current MAC table TTL on page load
+async function initializeTTLSettings() {
     try {
         const settings = await window.electronAPI.fetchSettings();
         if (settings) {
             const numberInput = document.getElementById("numberTimeMacTable");
             if (numberInput) {
-                var time = settings.newTime / 1000;
-                // const macTableTTL = parseInt(settings.MacTableTTL, 10); // ✅ Преобразуем в int
-                if (!isNaN(time)) {
-                    numberInput.value = time; // ✅ Преобразуем обратно в строку для input
-                    window.electronAPI.printText("✅ Установлено значение TTL:");
+                const timeInSeconds = settings.newTime / 1000;
+                if (!isNaN(timeInSeconds)) {
+                    numberInput.value = timeInSeconds;
+                    window.electronAPI.printText("[DEBUG] TTL value initialized.");
                 } else {
-                    window.electronAPI.printText("❌ Ошибка: `MacTableTTL` не является числом.");
+                    window.electronAPI.printText("[ERROR] Received TTL is not a number.");
                 }
             }
         }
     } catch (error) {
-        window.electronAPI.printText("❌ Ошибка обновления TTL:", error);
+        window.electronAPI.printText("[ERROR] Failed to fetch TTL:", error);
     }
 }
 
-// ✅ Запускаем при загрузке страницы
-document.addEventListener("DOMContentLoaded", () => {
-    updateMacTableTTL(); // 🔹 Устанавливаем начальное значение
-
+// Setup reset buttons for MAC table and statistics
+function initializeResetButtons() {
     const resetMacTableButton = document.getElementById("resetButtonMacTable");
     const resetStatisticsButton = document.getElementById("resetButtonStatistics");
 
+    if (resetMacTableButton) {
+        resetMacTableButton.addEventListener("click", () => {
+            window.electronAPI.resetMacTable();
+        });
+    }
 
-    resetMacTableButton.addEventListener("click", () => {
-        window.electronAPI.resetMacTable();
-    });
-    
-    // 📌 3️⃣ Сброс статистики
-    resetStatisticsButton.addEventListener("click", () => {
-        window.electronAPI.resetStatistics();
-    });
-});
+    if (resetStatisticsButton) {
+        resetStatisticsButton.addEventListener("click", () => {
+            window.electronAPI.resetStatistics();
+        });
+    }
+}
 
-
-
-document.addEventListener("DOMContentLoaded", () => {
+// Setup device name input and button
+function initializeDeviceNameInput() {
     const input = document.getElementById("deviceNameInput");
     const button = document.getElementById("confirmDeviceNameButton");
+
+    if (!input || !button) {
+        window.electronAPI.printText("[ERROR] Device name input or confirm button not found.");
+        return;
+    }
 
     button.addEventListener("click", async () => {
         const name = input.value.trim();
         if (!name) {
-            alert("⛔ Entry name");
+            alert("Please enter a device name.");
             return;
         }
 
         const result = await window.electronAPI.setHostName(name);
         if (result) {
-            //alert(result); // Показывает "✅ Имя хоста обновлено."
+            window.electronAPI.printText("[DEBUG] Hostname updated successfully.");
         } else {
-            alert("❌ Не удалось обновить имя устройства");
+            alert("Failed to update hostname.");
         }
     });
 
-    // 👉 опционально: автозаполнение текущего имени
+    // Optionally pre-fill current hostname
     window.electronAPI.getHostName().then((name) => {
-        if (name) input.value = name;
+        if (name) {
+            input.value = name;
+        }
     });
-});
+}
 
-
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Statistic page loaded");
-    
+// Setup close button functionality
+function initializeCloseButton() {
     const closeBtn = document.getElementById("closeApp");
 
     if (closeBtn) {
@@ -78,21 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
             window.electronAPI.closeCurrentWindow();
         });
     } else {
-        console.error("Button closed-window dont find!");
+        window.electronAPI.printText("[ERROR] Close button not found.");
     }
-});
+}
 
-document.addEventListener("DOMContentLoaded", () => {
+// Handle TTL input changes
+function initializeMacTableInput() {
     const numberInput = document.getElementById("numberTimeMacTable");
 
     if (numberInput) {
         numberInput.addEventListener("input", () => {
-            var newTime = numberInput.value * 1000;
-            console.log("Новое значение:", newTime);
+            const newTime = numberInput.value * 1000;
+            window.electronAPI.printText("[DEBUG] New TTL value:", newTime);
             window.electronAPI.updateSettings(newTime);
         });
     } else {
-        console.error("❌ Поле ввода `numberTimeMacTable` не найдено!");
+        window.electronAPI.printText("[ERROR] MAC table time input field not found.");
     }
-});
-
+}
