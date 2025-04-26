@@ -1,21 +1,16 @@
-var portNumber = null;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Initialization
+
+let portNumber = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (window.electronAPI) {
-        window.electronAPI.receiveData(async (port) => {
-            const name = await window.electronAPI.getPortName(port.number);
-            document.getElementById("nameApp").textContent = `${name} - Port #${port.number}`;
-            portNumber = port.number;
-            startPortStatusMonitor(port.number);
-            fillTable(convertPacketsStatsToData(port.packetsStats));
-        });
-    } else {
-        console.error("❌ window.electronAPI не определен!");
-    }
+    setupWindowControls();
+    setupPortDataReceiver();
+    startStatisticsUpdater();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Statistic page loaded");
+// Setup the close button functionality
+function setupWindowControls() {
     const closeBtn = document.getElementById("closeApp");
 
     if (closeBtn) {
@@ -23,16 +18,59 @@ document.addEventListener("DOMContentLoaded", () => {
             window.electronAPI.closeCurrentWindow();
         });
     } else {
-        console.error("Button closed-window dont find!");
+        window.electronAPI.printText("[ERROR] Close button not found!");
     }
-});
+}
 
+// Receive data about the selected port and initialize page
+function setupPortDataReceiver() {
+    if (!window.electronAPI) {
+        window.electronAPI.printText("[ERROR] window.electronAPI is not defined!");
+        return;
+    }
+
+    window.electronAPI.receiveData(async (port) => {
+        const name = await window.electronAPI.getPortName(port.number);
+        document.getElementById("nameApp").textContent = `${name} - Port #${port.number}`;
+        portNumber = port.number;
+        startPortStatusMonitor(port.number);
+        fillTable(convertPacketsStatsToData(port.packetsStats));
+    });
+}
+
+// Start periodic statistics update
+function startStatisticsUpdater() {
+    setInterval(updatePortStatistics, 100);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Port statistics handling
+
+// Update the table with new port statistics
+async function updatePortStatistics() {
+    if (!portNumber) return;
+
+    const statistics = await window.electronAPI.fetchPortStatistics(portNumber);
+    if (!statistics) return;
+
+    fillTable(convertPacketsStatsToData(statistics.packetsStats));
+}
+
+// Convert packets statistics object to array format
+function convertPacketsStatsToData(packetsStats) {
+    return Object.entries(packetsStats).map(([protocol, stats]) => [
+        protocol,
+        parseInt(stats.in, 10),
+        parseInt(stats.out, 10)
+    ]);
+}
+
+// Fill the table with statistics data
 function fillTable(data) {
-    console.log(data);
     const tableBody = document.querySelector(".stat-table tbody");
 
     if (!tableBody) {
-        console.error("Ошибка: `tbody` не найден.");
+        window.electronAPI.printText("[ERROR] Table body not found.");
         return;
     }
 
@@ -42,19 +80,19 @@ function fillTable(data) {
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td class="protocol">${row[0]}</td>  <!-- Название протокола -->
-            <td class="number">${row[1]}</td>  <!-- Входящие (in) -->
-            <td class="number">${row[2]}</td>  <!-- Исходящие (out) -->
+            <td class="protocol">${row[0]}</td>  <!-- Protocol name -->
+            <td class="number">${row[1]}</td>    <!-- Incoming packets -->
+            <td class="number">${row[2]}</td>    <!-- Outgoing packets -->
         `;
 
         tableBody.appendChild(newRow);
     });
 }
 
+// Reset the table to default zero values
 function resetTable() {
-
-    let resetData = [
-        ["Ethernet 2", 0, 0],
+    const defaultData = [
+        ["Ethernet II", 0, 0],
         ["ARP", 0, 0],
         ["IP", 0, 0],
         ["TCP", 0, 0],
@@ -63,64 +101,30 @@ function resetTable() {
         ["HTTP", 0, 0]
     ];
 
-    fillTable(resetData);
-
+    fillTable(defaultData);
 }
 
-function convertPacketsStatsToData(packetsStats) {
-    return Object.entries(packetsStats).map(([protocol, stats]) => [
-        protocol,
-        parseInt(stats.in, 10),
-        parseInt(stats.out, 10)
-    ]);
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Port status monitoring
 
-
-
-
-
-
-
-
-async function updatePortStatistics() {
-    if (!portNumber) return;
-    const statistics = await window.electronAPI.fetchPortStatistics(portNumber);
-    if (!statistics) return;
-
-    fillTable(convertPacketsStatsToData(statistics.packetsStats));
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    setInterval(updatePortStatistics, 100);
-});
-
-
-
-
-
-
-
-
-
-
+// Start monitoring the status of the selected port
 function startPortStatusMonitor(portNumber) {
-    const interval = 2000; // 🔁 Интервал проверки в миллисекундах
+    const interval = 2000; // Check every 2 seconds
 
     async function checkStatus() {
         const status = await window.electronAPI.getPortStatus(portNumber);
         updatePortStatusIndicator(status);
     }
 
-    // ✅ Запускаем проверку каждые 2 секунды
-    checkStatus(); // сразу первая проверка
+    checkStatus(); // Immediate first check
     setInterval(checkStatus, interval);
 }
 
+// Update the color indicator based on port status
 function updatePortStatusIndicator(status) {
     const indicator = document.getElementById("statusPort");
     if (!indicator) {
-        console.error("❌ Не найден элемент с id='statusPort'");
+        window.electronAPI.printText("[ERROR] Element with id='statusPort' not found.");
         return;
     }
 
@@ -133,24 +137,25 @@ function updatePortStatusIndicator(status) {
     indicator.style.boxShadow = `0 0 15px rgba(${hexToRgb(color)}, 0.9)`;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Utility functions
+
+// Get the color code based on status
 function getStatusColor(status) {
     switch (status) {
-        case "green":
-            return "#00FF00";
-        case "yellow":
-            return "#FFFF00";
-        case "red":
-            return "#FF0000";
-        default:
-            return "#A0A0A0"; 
+        case "green": return "#00FF00";
+        case "yellow": return "#FFFF00";
+        case "red": return "#FF0000";
+        default: return "#A0A0A0";
     }
 }
 
+// Convert hex color to RGB format
 function hexToRgb(hex) {
     hex = hex.replace("#", "");
-    let bigint = parseInt(hex, 16);
-    let r = (bigint >> 16) & 255;
-    let g = (bigint >> 8) & 255;
-    let b = bigint & 255;
+    const bigint = parseInt(hex, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
     return `${r}, ${g}, ${b}`;
 }

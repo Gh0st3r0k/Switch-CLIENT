@@ -97,16 +97,16 @@ header {
 
 .stat-table {
     width: 80%;
-    border-collapse: collapse; /* Убирает промежутки между ячейками */
-    border: none; /* Полностью убирает границы */
+    border-collapse: collapse;
+    border: none;
     margin: 0% 10% 0% 10%;
 }
 
 .stat-table th,
 .stat-table td {
-    padding: 2.5px; /* Добавляем отступы для читаемости */
+    padding: 2.5px;
     text-align: left;
-    border: none; /* Убираем границы у ячеек */
+    border: none;
 }
 
 .number {
