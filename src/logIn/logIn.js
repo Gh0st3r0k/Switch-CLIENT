@@ -1,4 +1,12 @@
-document.addEventListener("DOMContentLoaded", () => {    
+// Wait until the document is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    setupCloseButton();
+    setupPasswordToggle();
+    setupLoginButton();
+});
+
+// Setup the button to close the application
+function setupCloseButton() {
     const closeBtn = document.getElementById("closeApp");
 
     if (closeBtn) {
@@ -6,30 +14,36 @@ document.addEventListener("DOMContentLoaded", () => {
             window.electronAPI.closeWindow();
         });
     } else {
-        console.error("Button closed-window dont find!");
+        window.electronAPI.printText("[ERROR] Close button not found!");
     }
-});
+}
 
-document.addEventListener("DOMContentLoaded", () => {
+// Setup the button to toggle password visibility
+function setupPasswordToggle() {
     const toggleButton = document.querySelector(".toggle-password");
 
     if (toggleButton) {
         toggleButton.addEventListener("click", togglePassword);
     }
+}
 
-    const logInButton = document.querySelector("#login-button");
+// Setup the login button to send login request
+function setupLoginButton() {
+    const logInButton = document.getElementById("login-button");
     const username = document.getElementById("username");
     const password = document.getElementById("password");
 
     if (logInButton) {
         logInButton.addEventListener("click", () => login(username, password));
+    } else {
+        window.electronAPI.printText("[ERROR] Login button not found!");
     }
+}
 
-});
-
+// Toggle password input between visible and hidden
 function togglePassword() {
-    let passwordInput = document.getElementById("password");
-    let toggleButton = document.querySelector(".toggle-password");
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.querySelector(".toggle-password");
 
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
@@ -40,32 +54,30 @@ function togglePassword() {
     }
 }
 
-
-async function login(username, password) {
-    if (!username.value || !password.value) {
-        alert("⚠️ Please enter your username and password!");
+// Handle login process
+async function login(usernameInput, passwordInput) {
+    if (!usernameInput.value || !passwordInput.value) {
+        alert("Please enter your username and password!");
         return;
     }
 
-    // console.log(`✅ Logging in as: ${username.value}`);
-
     try {
-        const response = await window.electronAPI.sendLoginRequest(username.value, password.value);
+        const response = await window.electronAPI.sendLoginRequest(usernameInput.value, passwordInput.value);
 
-        window.electronAPI.printText("⌛⌛⌛ " + response);
+        window.electronAPI.printText(`[DEBUG] Server response: ${response}`);
         if (response === "ok") {
-            console.log("✅ Login successful!");
-            window.electronAPI.openMainWindow(); // 🔥 Открываем `mainWindow`
+            window.electronAPI.printText("[DEBUG] Login successful!");
+            window.electronAPI.openMainWindow(); // Open main window after successful login
         } else {
-            alert("❌ Invalid username or password!");
+            alert("Invalid username or password!");
         }
     } catch (error) {
-        console.error("❌ Error during login:", error);
-        alert("⚠️ Server error. Please try again later.");
+        window.electronAPI.printText("[ERROR] Login failed:", error);
+        alert("Server error. Please try again later.");
     }
 
-    username.removeAttribute("disabled");
-    password.removeAttribute("disabled");
-    username.removeAttribute("readonly");
-    password.removeAttribute("readonly");
+    usernameInput.removeAttribute("disabled");
+    passwordInput.removeAttribute("disabled");
+    usernameInput.removeAttribute("readonly");
+    passwordInput.removeAttribute("readonly");
 }

@@ -83,9 +83,9 @@ header {
 
 .content {
     display: flex;
-    flex-direction: column; /* 🔹 Элементы идут вертикально */
-    justify-content: center; /* 🔹 Центрирование по вертикали */
-    align-items: center; /* 🔹 Центрирование по горизонтали */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     position: relative;
     left: 20%;
@@ -93,8 +93,8 @@ header {
 
 
 .input-group {
-    display: flex; /* 🔹 Выстраиваем элементы в одну линию */
-    align-items: center; /* 🔹 Выравниваем элементы по центру */
+    display: flex;
+    align-items: center;
     width: 100%;
     margin-bottom: 15px;
 }
@@ -112,18 +112,14 @@ input {
 }
 
 .toggle-password {
-    /* position: absolute; */
     right: 1px;
     bottom: 4px;
-    /* top: 48%; */
-    /* transform: translateY(-50%); */
     border: none;
     background: transparent;
     cursor: pointer;
     font-size: 16px;
     width: 25px;
     height: 25px;
-    /* z-index: 10; */
 }
 
 
