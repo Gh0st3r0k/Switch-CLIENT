@@ -140,7 +140,6 @@ header {
     border-radius: 10px;
 }
 
-/* TODO: сделать плавную анимацию перехода цвета в скроллере */
 .ports-container::-webkit-scrollbar-thumb {
     background: #A0A0A0;
     border-radius: 10px;
@@ -229,8 +228,8 @@ header {
 /* Body-table */
 
 .table-container {
-    max-height: 212px; /* ⚡ Ограничиваем высоту */
-    overflow-y: auto; /* ✅ Разрешаем скролл */
+    max-height: 212px;
+    overflow-y: auto;
     display: block;
 }
 
@@ -287,7 +286,7 @@ footer {
 
 .footer-button {
     display: flex;
-    justify-content: center; /* ✅ Центрируем текст */
+    justify-content: center;
     align-items: center;
     background: #B0B0B0;
     padding: 10px;
@@ -295,7 +294,7 @@ footer {
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    width: 25%; /* ✅ Каждая кнопка занимает 30% ширины */
+    width: 25%;
 
     transition: background 0.2s ease-in-out, filter 0.2s ease-in-out; /* 🔥 Плавный эффект */
 }
