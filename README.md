@@ -21,7 +21,7 @@ It communicates with the **backend server** via REST API on [`http://localhost:5
 
 ## 🚀 How to Run
 
-1. Make sure the **server** is running first: [`FIIT-STU-PSIP-PROJECT-SERVER`](../server/README.md).
+1. Make sure the **server** is running first: [`Switch-SERVER`](../server/README.md).
 2. Install dependencies (if needed):
     npm install
 3. Start the Electron app:
