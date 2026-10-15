@@ -1,30 +1,54 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Login</title>
-        <link rel="stylesheet" href="logIn.css">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <link rel="stylesheet" href="logIn.css" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'"
+        />
     </head>
-    
+
     <body>
         <header>
             <h1 class="italic" id="nameApp">Log In</h1>
-            <button id="closeApp">
-                <img src="../image/cross.svg" alt="Close" width="20" height="20">
+            <button id="closeApp" aria-label="Close window">
+                <img
+                    src="../image/cross.svg"
+                    alt="Close"
+                    width="20"
+                    height="20"
+                />
             </button>
         </header>
 
         <main class="content">
             <section class="input-group">
-                <input type="text" id="username" placeholder="Username">
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Username"
+                    aria-label="Username"
+                    autocomplete="username"
+                />
             </section>
 
             <section class="input-group">
-                <input type="password" id="password" placeholder="Password">
-                <button class="toggle-password">
-                    🥺
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    aria-label="Password"
+                    autocomplete="current-password"
+                />
+                <button
+                    class="toggle-password"
+                    aria-label="Toggle password visibility"
+                    aria-pressed="false"
+                >
+                    Show
                 </button>
             </section>
         </main>

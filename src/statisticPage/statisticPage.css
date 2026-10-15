@@ -35,7 +35,7 @@ body {
 }
 
 button {
-    background-color: #A0A0A0;
+    background-color: #a0a0a0;
     color: black;
     border: none;
     display: inline-block;
@@ -47,9 +47,6 @@ button {
     font-style: italic;
 }
 
-
-
-/****************************************************************************************************************************************************/
 /* Header */
 
 header {
@@ -65,7 +62,7 @@ header {
     height: 25px;
     background-color: rgb(0, 255, 0);
     border-radius: 50%;
-    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.9); 
+    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.9);
     filter: blur(0.7px);
 }
 
@@ -78,7 +75,9 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+    transition:
+        background 0.2s ease-in-out,
+        filter 0.2s ease-in-out;
 }
 
 #closeApp:hover {
@@ -90,9 +89,6 @@ header {
     font-size: 35px;
 }
 
-
-
-/****************************************************************************************************************************************************/
 /* Content */
 
 .stat-table {
@@ -110,7 +106,7 @@ header {
 }
 
 .number {
-    color: #A0A0A0;
+    color: #a0a0a0;
     width: 25%;
 }
 

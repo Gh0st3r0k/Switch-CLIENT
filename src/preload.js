@@ -1,38 +1,27 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-// Expose a secure API for the renderer process
+// Expose named operations instead of giving renderers unrestricted IPC access.
 contextBridge.exposeInMainWorld("electronAPI", {
-    // Window controls
-    sendLoginRequest: (username, password) => ipcRenderer.invoke("send-login", username, password),
+    sendLoginRequest: (username, password) =>
+        ipcRenderer.invoke("send-login", username, password),
     openMainWindow: () => ipcRenderer.send("open-main-window"),
     closeWindow: () => ipcRenderer.send("close-window"),
     closeCurrentWindow: () => ipcRenderer.send("close-current-window"),
     openSetting: () => ipcRenderer.send("open-setting"),
-
-    // Communication utilities
-    print: () => ipcRenderer.send("print"),
-    printApi: () => ipcRenderer.send("print-api"),
-    printText: (text) => ipcRenderer.send("print-text", text),
-
-    // Port windows and statistics
     openPortStat: (port) => ipcRenderer.send("open-port-stats", port),
-    receiveData: (callback) => ipcRenderer.on("port-data", (event, data) => callback(data)),
-
-    // Fetch ports and statistics
+    receiveData: (callback) =>
+        ipcRenderer.on("port-data", (_event, data) => callback(data)),
     fetchPorts: () => ipcRenderer.invoke("fetch-ports"),
-    fetchPortStatistics: (portNumber) => ipcRenderer.invoke("fetch-port-statistics", portNumber),
-    getPortStatus: (portNumber) => ipcRenderer.invoke("get-port-status", portNumber),
-    getPortName: (portNumber) => ipcRenderer.invoke("get-port-name", portNumber),
-
-    // Settings and MAC table
+    fetchPortStatistics: (port) =>
+        ipcRenderer.invoke("fetch-port-statistics", port),
+    getPortStatus: (port) => ipcRenderer.invoke("get-port-status", port),
+    getPortName: (port) => ipcRenderer.invoke("get-port-name", port),
     fetchSettings: () => ipcRenderer.invoke("fetch-settings"),
-    updateSettings: (newTTL) => ipcRenderer.invoke("update-settings", newTTL),
+    updateSettings: (lifetime) =>
+        ipcRenderer.invoke("update-settings", lifetime),
     resetMacTable: () => ipcRenderer.invoke("reset-mac-table"),
-    checkResetMacTable: () => ipcRenderer.invoke("check-reset-macTable"),
     resetStatistics: () => ipcRenderer.invoke("reset-statistics"),
-    GetMacTable: () => ipcRenderer.invoke("fetch-mac-table"),
-
-    // Device information
+    fetchMacTable: () => ipcRenderer.invoke("fetch-mac-table"),
     getHostName: () => ipcRenderer.invoke("get-host-name"),
-    setHostName: (hostName) => ipcRenderer.invoke("set-host-name", hostName)
+    setHostName: (name) => ipcRenderer.invoke("set-host-name", name)
 });

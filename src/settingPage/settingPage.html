@@ -1,39 +1,77 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Setting Page</title>
-        <link rel="stylesheet" href="settingPage.css">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Settings</title>
+        <link rel="stylesheet" href="settingPage.css" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'"
+        />
     </head>
 
     <body>
         <header>
             <h1 class="bold-italic" id="nameApp">Settings</h1>
-            <button id="closeApp">
-                <img src="../image/cross.svg" alt="Close" width="20" height="20">
+            <button id="closeApp" aria-label="Close window">
+                <img
+                    src="../image/cross.svg"
+                    alt="Close"
+                    width="20"
+                    height="20"
+                />
             </button>
         </header>
 
         <main class="content">
             <section class="Mac-table">
-                <h2 class="bold-italic" id="nameContent">Mac-table</h2>
-                <article class="chooseNumber"><span class="italic">Time</span><input title="Time" type="number" class="touch" id="numberTimeMacTable" min="1" max="100" step="1" value="5"></article>
-                <article class="resetMacTable"><span class="italic">Reset</span><button class="touch" id="resetButtonMacTable">Clear</button></article>
+                <h2 class="bold-italic name-content">MAC Table</h2>
+                <article class="chooseNumber">
+                    <span class="italic">TTL (s)</span
+                    ><input
+                        title="Time"
+                        type="number"
+                        class="touch"
+                        id="numberTimeMacTable"
+                        min="1"
+                        max="100"
+                        step="1"
+                        value="5"
+                    />
+                </article>
+                <article class="resetMacTable">
+                    <span class="italic">Reset</span
+                    ><button class="touch" id="resetButtonMacTable">
+                        Clear
+                    </button>
+                </article>
             </section>
             <section class="Statistics">
-                <h2 class="bold-italic" id="nameContent">Statistics</h2>
-                <article class="resetStatistics"><span class="italic">Reset</span><button class="touch" id="resetButtonStatistics">Clear</button></article>
+                <h2 class="bold-italic name-content">Statistics</h2>
+                <article class="resetStatistics">
+                    <span class="italic">Reset</span
+                    ><button class="touch" id="resetButtonStatistics">
+                        Clear
+                    </button>
+                </article>
             </section>
             <section class="Device-name">
-                <h2 class="bold-italic" id="nameContent">Device Name</h2>
+                <h2 class="bold-italic name-content">Device Name</h2>
                 <article class="changeDeviceName">
                     <span class="italic">Name</span>
-                    <input title="Device Name" type="text" class="touch" id="deviceNameInput" placeholder="Enter device name">
-                    <button class="touch" id="confirmDeviceNameButton">Confirm</button>
+                    <input
+                        title="Device Name"
+                        type="text"
+                        class="touch"
+                        id="deviceNameInput"
+                        placeholder="Enter device name"
+                    />
+                    <button class="touch" id="confirmDeviceNameButton">
+                        Confirm
+                    </button>
                 </article>
-            </section>        
+            </section>
         </main>
 
         <script src="settingPage.js"></script>

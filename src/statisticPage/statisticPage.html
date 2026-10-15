@@ -1,18 +1,26 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Statistic Page</title>
-        <link rel="stylesheet" href="statisticPage.css">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Port Statistics</title>
+        <link rel="stylesheet" href="statisticPage.css" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'"
+        />
     </head>
     <body>
         <header>
             <div id="statusPort"></div>
             <h1 class="italic" id="nameApp">Port</h1>
-            <button id="closeApp">
-                <img src="../image/cross.svg" alt="Close" width="20" height="20">
+            <button id="closeApp" aria-label="Close window">
+                <img
+                    src="../image/cross.svg"
+                    alt="Close"
+                    width="20"
+                    height="20"
+                />
             </button>
         </header>
 
@@ -25,13 +33,10 @@
                         <th>Out</th>
                     </tr>
                 </thead>
-                <tbody>
-                    
-                </tbody>
+                <tbody></tbody>
             </table>
         </main>
 
-        <script src="statisticPage.js"></script>
-
+        <script type="module" src="statisticPage.js"></script>
     </body>
 </html>

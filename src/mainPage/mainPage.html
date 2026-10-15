@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Main Page</title>
-        <link rel="stylesheet" href="mainPage.css">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <link rel="stylesheet" href="mainPage.css" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'"
+        />
         <script type="module" src="mainPage.js"></script>
     </head>
 
@@ -14,33 +16,37 @@
         <header>
             <div id="statusSwitch"></div>
             <h1 class="bold-italic" id="nameApp">Switch</h1>
-            <button id="closeApp">
-                <img src="../image/cross.svg" alt="Close" width="20" height="20">
+            <button id="closeApp" aria-label="Close window">
+                <img
+                    src="../image/cross.svg"
+                    alt="Close"
+                    width="20"
+                    height="20"
+                />
             </button>
         </header>
 
         <main class="content">
             <section class="ports">
-                <h2 class="italic" id="nameContent">Ports</h2>
+                <h2 class="italic name-content">Ports</h2>
                 <article class="ports-container"></article>
             </section>
 
             <section class="mac-table">
-                <h2 class="italic" id="nameContent">Mac-table</h2>
+                <h2 class="italic name-content">MAC Table</h2>
                 <section class="table-wrapper">
                     <table class="table-header">
                         <thead>
                             <tr>
                                 <th class="column1">Port</th>
-                                <th class="column2">Mac</th>
-                                <th class="column3">Time</th>
+                                <th class="column2">MAC Address</th>
+                                <th class="column3">Last Seen</th>
                             </tr>
                         </thead>
                     </table>
                     <article class="table-container">
                         <table class="table-body">
-                            <tbody>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </article>
                 </section>
@@ -48,8 +54,7 @@
         </main>
 
         <footer>
-            <button class="footer-button" id="settingButton">Setting</button>
+            <button class="footer-button" id="settingButton">Settings</button>
         </footer>
-
     </body>
 </html>

@@ -35,7 +35,7 @@ body {
 }
 
 button {
-    background-color: #A0A0A0;
+    background-color: #a0a0a0;
     color: black;
     border: none;
     display: inline-block;
@@ -52,9 +52,6 @@ button {
     font-style: italic;
 }
 
-
-
-/****************************************************************************************************************************************************/
 /* Header */
 
 header {
@@ -70,7 +67,7 @@ header {
     height: 25px;
     background-color: rgb(0, 255, 0);
     border-radius: 50%;
-    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.9); 
+    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.9);
     filter: blur(0.7px);
 }
 
@@ -83,7 +80,9 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+    transition:
+        background 0.2s ease-in-out,
+        filter 0.2s ease-in-out;
 }
 
 #closeApp:hover {
@@ -95,9 +94,6 @@ header {
     font-size: 40px;
 }
 
-
-
-/****************************************************************************************************************************************************/
 /* Content */
 
 .content {
@@ -109,13 +105,12 @@ header {
     height: 450px;
 }
 
-#nameContent {
+.name-content {
     font-size: 40px;
     text-align: center;
     margin-bottom: 10px;
 }
 
-/************************************************/
 /* Ports */
 
 .ports {
@@ -136,12 +131,12 @@ header {
 }
 
 .ports-container::-webkit-scrollbar-track {
-    background: #3A3A3A;
+    background: #3a3a3a;
     border-radius: 10px;
 }
 
 .ports-container::-webkit-scrollbar-thumb {
-    background: #A0A0A0;
+    background: #a0a0a0;
     border-radius: 10px;
 }
 
@@ -153,13 +148,15 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #B0B0B0;
+    background: #b0b0b0;
     padding: 10px;
     border: none;
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+    transition:
+        background 0.2s ease-in-out,
+        filter 0.2s ease-in-out;
 }
 
 .port-button:hover {
@@ -172,8 +169,7 @@ header {
     border-radius: 50%;
 }
 
-/************************************************/
-/* Mact-table */
+/* MAC table */
 
 .mac-table {
     width: 65%;
@@ -181,7 +177,7 @@ header {
 }
 
 .table-wrapper {
-    background: #B0B0B0;
+    background: #b0b0b0;
     border-radius: 10px;
 }
 
@@ -204,12 +200,12 @@ header {
     width: 45%;
 }
 
-.table-header th:last-child, .table-body td:last-child {
+.table-header th:last-child,
+.table-body td:last-child {
     border-right: none;
 }
 
-/***********************/
-/* Head-table */
+/* Table header */
 
 .table-header {
     border-collapse: collapse;
@@ -224,8 +220,7 @@ header {
     color: black;
 }
 
-/***********************/
-/* Body-table */
+/* Table body */
 
 .table-container {
     max-height: 212px;
@@ -255,12 +250,12 @@ header {
 }
 
 .table-container::-webkit-scrollbar-track {
-    background: #3A3A3A;
+    background: #3a3a3a;
     border-radius: 10px;
 }
 
 .table-container::-webkit-scrollbar-thumb {
-    background: #A0A0A0;
+    background: #a0a0a0;
     border-radius: 10px;
 }
 
@@ -268,11 +263,6 @@ header {
     background: #636363;
 }
 
-
-
-
-
-/****************************************************************************************************************************************************/
 /* Footer */
 
 footer {
@@ -288,7 +278,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #B0B0B0;
+    background: #b0b0b0;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -296,7 +286,9 @@ footer {
     cursor: pointer;
     width: 25%;
 
-    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out; /* 🔥 Плавный эффект */
+    transition:
+        background 0.2s ease-in-out,
+        filter 0.2s ease-in-out; /* Smooth hover transition. */
 }
 
 .footer-button:hover {

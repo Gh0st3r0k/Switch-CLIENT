@@ -16,7 +16,6 @@
     .touch {
         -webkit-app-region: no-drag;
     }
-
 }
 
 body {
@@ -28,7 +27,7 @@ body {
 }
 
 button {
-    background-color: #A0A0A0;
+    background-color: #a0a0a0;
     color: black;
     border: none;
     display: inline-block;
@@ -45,9 +44,6 @@ button {
     font-style: italic;
 }
 
-
-
-/****************************************************************************************************************************************************/
 /* Header */
 
 header {
@@ -64,7 +60,9 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease-in-out, filter 0.2s ease-in-out;
+    transition:
+        background 0.2s ease-in-out,
+        filter 0.2s ease-in-out;
 }
 
 #closeApp:hover {
@@ -76,9 +74,6 @@ header {
     font-size: 35px;
 }
 
-
-
-/****************************************************************************************************************************************************/
 /* Content */
 
 .content {
@@ -102,8 +97,8 @@ span {
     font-weight: normal;
 }
 
-.chooseNumber, 
-.resetMacTable, 
+.chooseNumber,
+.resetMacTable,
 .resetStatistics {
     display: flex;
     justify-content: flex-start;
@@ -139,7 +134,7 @@ input[type="number"] {
     border-radius: 5px;
     outline: none;
     margin-left: 20px;
-    background-color: #A0A0A0;
+    background-color: #a0a0a0;
     color: black;
     transition: background 0.2s ease-in-out;
     cursor: pointer;
@@ -149,6 +144,6 @@ input[type="number"] {
     background: #636363;
 }
 
-#nameContent {
+.name-content {
     font-size: 20px;
 }

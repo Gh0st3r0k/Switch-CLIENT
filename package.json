@@ -1,13 +1,18 @@
 {
   "name": "ui",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Electron desktop dashboard for the Switch packet forwarding server.",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "start": "electron src/main.js"
   },
-  "keywords": [],
+  "keywords": [
+    "electron",
+    "networking",
+    "ethernet",
+    "switch"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
